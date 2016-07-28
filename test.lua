@@ -1,4 +1,7 @@
 local LibFilters = LibStub("LibFilters-2.0")
+LibFilters:InitializeLibFilters()
+
+test = {}
 
 SLASH_COMMANDS["/testfilters"] = function()
     local filterTag = "TEST"
@@ -9,20 +12,25 @@ SLASH_COMMANDS["/testfilters"] = function()
         LF_SMITHING_REFINE, LF_SMITHING_DECONSTRUCT, LF_SMITHING_IMPROVEMENT,
         LF_SMITHING_RESEARCH, LF_ALCHEMY_CREATION, LF_ENCHANTING_CREATION,
         LF_ENCHANTING_EXTRACTION, LF_FENCE_SELL, LF_FENCE_LAUNDER, LF_CRAFTBAG,
+        LF_QUICKSLOT,
     }
-    local function filterCallback(...)
-        table.insert(test[filterType], {...})
-    end
 
     for _, filterType in pairs(filterTypes) do
+        test[filterType] = {}
+        
+        local function filterCallback(...)
+            table.insert(test[filterType], {...})
+            return false
+        end
+
         if LibFilters:IsFilterRegistered(filterTag, filterType) then
             d("Unregistering " .. filterType)
             LibFilters:UnregisterFilter(filterTag, filterType)
-            LibFilters:RequestInventoryUpdate(filterType)
+            LibFilters:RequestUpdate(filterType)
         else
             d("Registering " .. filterType)
             LibFilters:RegisterFilter(filterTag, filterType, filterCallback)
-            LibFilters:RequestInventoryUpdate(filterType)
+            LibFilters:RequestUpdate(filterType)
         end
     end
 end

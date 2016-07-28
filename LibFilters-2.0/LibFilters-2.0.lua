@@ -29,6 +29,7 @@ LF_PROVISIONING_BREW     = 23
 LF_FENCE_SELL            = 24
 LF_FENCE_LAUNDER         = 25
 LF_CRAFTBAG				 = 26
+LF_QUICKSLOT             = 27
 
 LibFilters.isInitialized = false
 LibFilters.filters = {
@@ -58,6 +59,7 @@ LibFilters.filters = {
 	[LF_FENCE_SELL] = {},
 	[LF_FENCE_LAUNDER] = {},
 	[LF_CRAFTBAG] = {},
+	[LF_QUICKSLOT] = {},
 }
 local filters = LibFilters.filters
 
@@ -88,6 +90,7 @@ local filterTypeToUpdaterName = {
 	[LF_FENCE_SELL] = "INVENTORY",
 	[LF_FENCE_LAUNDER] = "INVENTORY",
 	[LF_CRAFTBAG] = "CRAFTBAG",
+	[LF_QUICKSLOT] = "QUICKSLOT",
 }
 
 local inventoryUpdaters = {
@@ -140,7 +143,10 @@ local inventoryUpdaters = {
 	end,
 	CRAFTBAG = function()
 		PLAYER_INVENTORY:UpdateList(INVENTORY_CRAFT_BAG)
-	end
+	end,
+	QUICKSLOT = function()
+		QUICKSLOT_WINDOW:UpdateList()
+	end,
 }
 
 local function df(...)
@@ -221,6 +227,8 @@ function LibFilters:InitializeLibFilters()
 	self:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
 
 	self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
+
+	self:HookAdditionalFilter(LF_QUICKSLOT, QUICKSLOT_WINDOW)
 end
 
 function LibFilters:GetCurrentFilterTypeForInventory(inventoryType)
