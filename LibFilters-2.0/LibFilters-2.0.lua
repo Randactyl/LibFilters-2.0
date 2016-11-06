@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 2
+local MAJOR, MINOR = "LibFilters-2.0", 2.1
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -94,7 +94,7 @@ local filterTypeToUpdaterName = {
 }
 
 local function SafePlayerInventoryUpdateList(inventoryType)
-    local control = moc()
+    local control = WINDOW_MANAGER:GetMouseOverControl()
 
     if control and control:GetName():match("ZO_PlayerInventoryList%d+Row%d+") == nil then
         SafePlayerInventoryUpdateList(inventoryType)
@@ -167,7 +167,7 @@ local function runFilters(filterType, ...)
 			return false
 		end
 	end
-	
+
 	return true
 end
 
