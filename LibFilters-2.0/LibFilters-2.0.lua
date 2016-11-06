@@ -97,7 +97,7 @@ local function SafePlayerInventoryUpdateList(inventoryType)
     local control = WINDOW_MANAGER:GetMouseOverControl()
 
     if control and control:GetName():match("ZO_PlayerInventoryList%d+Row%d+") == nil then
-        SafePlayerInventoryUpdateList(inventoryType)
+        PLAYER_INVENTORY:UpdateList(inventoryType)
     end
 end
 
