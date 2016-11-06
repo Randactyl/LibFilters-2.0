@@ -94,11 +94,11 @@ local filterTypeToUpdaterName = {
 }
 
 local function SafePlayerInventoryUpdateList(inventoryType)
-    local control = WINDOW_MANAGER:GetMouseOverControl()
+	local control = WINDOW_MANAGER:GetMouseOverControl()
 
-    if control and control:GetName():match("ZO_PlayerInventoryList%d+Row%d+") == nil then
-        PLAYER_INVENTORY:UpdateList(inventoryType)
-    end
+	if control and control:GetName():match("ZO_PlayerInventoryList%d+Row%d+") == nil then
+		PLAYER_INVENTORY:UpdateList(inventoryType)
+	end
 end
 
 local inventoryUpdaters = {
