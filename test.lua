@@ -1,7 +1,7 @@
 local LibFilters = LibStub("LibFilters-2.0")
 LibFilters:InitializeLibFilters()
 
-test = {}
+LibFilters.test = {}
 
 SLASH_COMMANDS["/testfilters"] = function()
     local filterTag = "TEST"
@@ -16,10 +16,10 @@ SLASH_COMMANDS["/testfilters"] = function()
     }
 
     for _, filterType in pairs(filterTypes) do
-        test[filterType] = {}
+        LibFilters.test[filterType] = {}
         
         local function filterCallback(...)
-            table.insert(test[filterType], {...})
+            table.insert(LibFilters.test[filterType], {...})
             return false
         end
 
