@@ -95,8 +95,12 @@ local filterTypeToUpdaterName = {
 
 local function SafePlayerInventoryUpdateList(inventoryType)
 	PLAYER_INVENTORY:UpdateList(inventoryType)
-	HideMouse()
-	ShowMouse()
+
+	--if the mouse is visible, cycle its visibility to refresh the integrity of the control beneath it
+	if SCENE_MANAGER:IsInUIMode() then
+		HideMouse()
+		ShowMouse()
+	end
 end
 
 local inventoryUpdaters = {
