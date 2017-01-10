@@ -7,4 +7,4 @@ LibStub\LibStub.lua
 LibFilters-2.0\LibFilters-2.0.lua
 LibFilters-2.0\helper.lua
 
-test.lua
+## test.lua
