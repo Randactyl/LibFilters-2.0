@@ -182,11 +182,6 @@ function LibFilters:HookAdditionalFilter(filterType, inventory)
 
 	if type(originalFilter) == "function" then
 		layoutData.additionalFilter = function(...)
-			--for enchanting
-			if (filterType == LF_ENCHANTING_CREATION or filterType == LF_ENCHANTING_EXTRACTION) then
-				return runFilters(filterType, ...)
-			end
-
 			return originalFilter(...) and runFilters(filterType, ...)
 		end
 	else
