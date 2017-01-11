@@ -17,7 +17,7 @@ SLASH_COMMANDS["/testfilters"] = function()
 
     for _, filterType in pairs(filterTypes) do
         LibFilters.test[filterType] = {}
-        
+
         local function filterCallback(...)
             table.insert(LibFilters.test[filterType], {...})
             return false
@@ -32,5 +32,39 @@ SLASH_COMMANDS["/testfilters"] = function()
             LibFilters:RegisterFilter(filterTag, filterType, filterCallback)
             LibFilters:RequestUpdate(filterType)
         end
+    end
+end
+
+--depends on Item Saver by Randactyl
+SLASH_COMMANDS["/testenchant"] = function()
+    local filterTag = "TestEnchant"
+    local isRegistered = LibFilters:IsFilterRegistered(filterTag, LF_ENCHANTING_CREATION)
+
+    local function filterCallback(slotOrBagId, slotIndex)
+        local bagId
+
+        if type(slotOrBagId) == "number" then
+            if not slotIndex then return false end
+
+            bagId = slotOrBagId
+        else
+            bagId, slotIndex = ItemSaver.util.GetInfoFromRowControl(slotOrBagId)
+        end
+
+        local isSaved, savedSet = ItemSaver_IsItemSaved(bagId, slotIndex)
+
+        return not isSaved
+    end
+
+    if not isRegistered then
+        LibFilters:RegisterFilter(filterTag, LF_ENCHANTING_CREATION, filterCallback)
+        LibFilters:RequestUpdate(LF_ENCHANTING_CREATION)
+        LibFilters:RegisterFilter(filterTag, LF_ENCHANTING_EXTRACTION, filterCallback)
+        LibFilters:RequestUpdate(LF_ENCHANTING_EXTRACTION)
+    else
+        LibFilters:UnregisterFilter(filterTag, LF_ENCHANTING_CREATION)
+        LibFilters:RequestUpdate(LF_ENCHANTING_CREATION)
+        LibFilters:UnregisterFilter(filterTag, LF_ENCHANTING_EXTRACTION)
+        LibFilters:RequestUpdate(LF_ENCHANTING_EXTRACTION)
     end
 end
