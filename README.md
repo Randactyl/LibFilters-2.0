@@ -13,7 +13,7 @@ The goal of LibFilters is to provide an easy interface for applying custom
   withdrawal, guild bank deposits, vendor buying, vendor selling, buyback,
   repair, guild store selling, mail sending, trading, smithing (refinement,
   deconstruction, improvement, research), alchemy creation, enchanting creation,
-  enchanting extraction, fence selling, fence laundering, the craftbag, and the 
+  enchanting extraction, fence selling, fence laundering, the craftbag, and the
   quickslot inventory.
 
 To use LibFilters in your addon, you need to copy the LibStub (if you don't already have it from elsewhere) and LibFilters-2.0 folders from this directory to your addon's directory. In your manifest you need to load these files:
@@ -50,7 +50,7 @@ This is the list of available filterType constants:
     LF_ENCHANTING_EXTRACTION --bagId, slotIndex
     LF_FENCE_SELL            --inventory slot
     LF_FENCE_LAUNDER         --inventory slot
-    LF_CRAFTBAG				       --inventory slot
+    LF_CRAFTBAG              --inventory slot
     LF_QUICKSLOT             --quickslot slot
 
 Listed next to the filterTypes is what is passed to a filterCallback registered
@@ -63,16 +63,16 @@ Listed next to the filterTypes is what is passed to a filterCallback registered
       requiredLevel, searchData, sellPrice, slotControl, slotIndex,
       specializedItemType, stackCount, stackLaunderPrice, statValue, stolen,
       uniqueId
-    
+
     store slot: currencyQuantity1, currencyQuantity2, currencyType1,
       currencyType2, dataEntry, entryType, filterData, icon, isUnique,
       meetsRequirementsToBuy, meetsRequirementsToEquip, name, price, quality,
       questNameColor, sellPrice, slotIndex, stack, stackBuyPrice,
       stackBuyPriceCurrency1, stackBuyPriceCurrency2, statValue
-    
+
     buyback slot: icon, meetsRequirements, name, price, quality, slotIndex,
       stack, stackBuyPrice
-    
+
     repair slot: bagId, condition, dataEntry, icon, name, quality, repairCost,
       slotIndex, stackCount
 
@@ -86,7 +86,7 @@ LibFilters has the following functions available:
     FilterType is one of the provided "LF_" prefixed constants. Inventory needs
       to be some construct which can make use of an additionalFilter to
       determine if an item is shown or not. Look in
-      LibFilters:InitializeLibFilters and/or helper.lua for examples. 
+      LibFilters:InitializeLibFilters and/or helper.lua for examples.
 
     LibFilters:InitializeLibFilters()
     Must be called after you've invoked LibFilters-2.0 with LibStub
