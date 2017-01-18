@@ -191,51 +191,67 @@ function LibFilters:HookAdditionalFilter(filterType, inventory)
     end
 end
 
+local function HookAdditionalFilters()
+    LibFilters:HookAdditionalFilter(LF_INVENTORY, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
+    LibFilters:HookAdditionalFilter(LF_INVENTORY, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_BANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
+    LibFilters:HookAdditionalFilter(LF_BANK_DEPOSIT, BACKPACK_BANK_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_GUILDBANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
+    LibFilters:HookAdditionalFilter(LF_GUILDBANK_DEPOSIT, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_VENDOR_BUY, STORE_WINDOW)
+    LibFilters:HookAdditionalFilter(LF_VENDOR_SELL, BACKPACK_STORE_LAYOUT_FRAGMENT)
+    LibFilters:HookAdditionalFilter(LF_VENDOR_BUYBACK, BUY_BACK_WINDOW)
+    LibFilters:HookAdditionalFilter(LF_VENDOR_REPAIR, REPAIR_WINDOW)
+
+    --LibFilters:HookAdditionalFilter(LF_GUILDSTORE_BROWSE, )
+    LibFilters:HookAdditionalFilter(LF_GUILDSTORE_SELL, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_MAIL_SEND, BACKPACK_MAIL_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_SMITHING_REFINE, SMITHING.refinementPanel.inventory)
+    --LibFilters:HookAdditionalFilter(LF_SMITHING_CREATION, )
+    LibFilters:HookAdditionalFilter(LF_SMITHING_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
+    LibFilters:HookAdditionalFilter(LF_SMITHING_IMPROVEMENT, SMITHING.improvementPanel.inventory)
+    LibFilters:HookAdditionalFilter(LF_SMITHING_RESEARCH, SMITHING.researchPanel)
+
+    LibFilters:HookAdditionalFilter(LF_ALCHEMY_CREATION, ALCHEMY.inventory)
+
+    LibFilters:HookAdditionalFilter(LF_ENCHANTING_CREATION, ENCHANTING.inventory)
+    LibFilters:HookAdditionalFilter(LF_ENCHANTING_EXTRACTION, ENCHANTING.inventory)
+
+    --LibFilters:HookAdditionalFilter(LF_PROVISIONING_COOK, )
+    --LibFilters:HookAdditionalFilter(LF_PROVISIONING_BREW, )
+
+    LibFilters:HookAdditionalFilter(LF_FENCE_SELL, BACKPACK_FENCE_LAYOUT_FRAGMENT)
+    LibFilters:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
+
+    LibFilters:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
+
+    LibFilters:HookAdditionalFilter(LF_QUICKSLOT, QUICKSLOT_WINDOW)
+end
+LibFilters.helpers = {}
+local helpers = LibFilters.helpers
+local function InstallHelpers()
+    for _, package in pairs(helpers) do
+        local funcName = package.helper.funcName
+        local func = package.helper.func
+
+        for _, location in pairs(package.locations) do
+            location[funcName] = func
+        end
+    end
+end
 function LibFilters:InitializeLibFilters()
     if self.isInitialized then return end
     self.isInitialized = true
 
-    self:HookAdditionalFilter(LF_INVENTORY, PLAYER_INVENTORY.inventories[INVENTORY_BACKPACK])
-    self:HookAdditionalFilter(LF_INVENTORY, BACKPACK_MENU_BAR_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_BANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_BANK])
-    self:HookAdditionalFilter(LF_BANK_DEPOSIT, BACKPACK_BANK_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_GUILDBANK_WITHDRAW, PLAYER_INVENTORY.inventories[INVENTORY_GUILD_BANK])
-    self:HookAdditionalFilter(LF_GUILDBANK_DEPOSIT, BACKPACK_GUILD_BANK_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_VENDOR_BUY, STORE_WINDOW)
-    self:HookAdditionalFilter(LF_VENDOR_SELL, BACKPACK_STORE_LAYOUT_FRAGMENT)
-    self:HookAdditionalFilter(LF_VENDOR_BUYBACK, BUY_BACK_WINDOW)
-    self:HookAdditionalFilter(LF_VENDOR_REPAIR, REPAIR_WINDOW)
-
-    --self:HookAdditionalFilter(LF_GUILDSTORE_BROWSE, )
-    self:HookAdditionalFilter(LF_GUILDSTORE_SELL, BACKPACK_TRADING_HOUSE_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_MAIL_SEND, BACKPACK_MAIL_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_TRADE, BACKPACK_PLAYER_TRADE_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_SMITHING_REFINE, SMITHING.refinementPanel.inventory)
-    --self:HookAdditionalFilter(LF_SMITHING_CREATION, )
-    self:HookAdditionalFilter(LF_SMITHING_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
-    self:HookAdditionalFilter(LF_SMITHING_IMPROVEMENT, SMITHING.improvementPanel.inventory)
-    self:HookAdditionalFilter(LF_SMITHING_RESEARCH, SMITHING.researchPanel)
-
-    self:HookAdditionalFilter(LF_ALCHEMY_CREATION, ALCHEMY.inventory)
-
-    self:HookAdditionalFilter(LF_ENCHANTING_CREATION, ENCHANTING.inventory)
-    self:HookAdditionalFilter(LF_ENCHANTING_EXTRACTION, ENCHANTING.inventory)
-
-    --self:HookAdditionalFilter(LF_PROVISIONING_COOK, )
-    --self:HookAdditionalFilter(LF_PROVISIONING_BREW, )
-
-    self:HookAdditionalFilter(LF_FENCE_SELL, BACKPACK_FENCE_LAYOUT_FRAGMENT)
-    self:HookAdditionalFilter(LF_FENCE_LAUNDER, BACKPACK_LAUNDER_LAYOUT_FRAGMENT)
-
-    self:HookAdditionalFilter(LF_CRAFTBAG, PLAYER_INVENTORY.inventories[INVENTORY_CRAFT_BAG])
-
-    self:HookAdditionalFilter(LF_QUICKSLOT, QUICKSLOT_WINDOW)
+    InstallHelpers()
+    HookAdditionalFilters()
 end
 
 function LibFilters:GetCurrentFilterTypeForInventory(inventoryType)
