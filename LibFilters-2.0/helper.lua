@@ -135,14 +135,12 @@ helpers["REPAIR_WINDOW"] = {
 }
 
 --enable LF_ALCHEMY_CREATION, LF_ENCHANTING_CREATION, LF_ENCHANTING_EXTRACTION,
---  LF_SMITHING_REFINE, LF_SMITHING_DECONSTRUCT, LF_SMITHING_IMPROVEMENT
+--  LF_SMITHING_REFINE
 helpers["enumerate"] = {
-    version = 1,
+    version = 2,
     locations = {
         [1] = ZO_AlchemyInventory,
         [2] = ZO_EnchantingInventory,
-        [3] = ZO_SmithingExtractionInventory,
-        [4] = ZO_SmithingImprovementInventory,
     },
     helper = {
         funcName = "EnumerateInventorySlotsAndAddToScrollData",
@@ -158,6 +156,8 @@ helpers["enumerate"] = {
                 return oldPredicate(bagId, slotIndex) and result
             end
 
+            -- Begin original function
+
             local list = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK, predicate)
             PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, predicate, list)
             PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_CRAFT_BAG, predicate, list)
@@ -166,7 +166,7 @@ helpers["enumerate"] = {
 
             for itemId, itemInfo in pairs(list) do
                 if not filterFunction or filterFunction(itemInfo.bag, itemInfo.index, filterType) then
-                    self:AddItemData(itemInfo.bag, itemInfo.index, itemInfo.stack, self:GetScrollDataType(itemInfo.bag, itemInfo.index), data, self.customDataGetFunction, validItemIds)
+                    self:AddItemData(itemInfo.bag, itemInfo.index, itemInfo.stack, self:GetScrollDataType(itemInfo.bag, itemInfo.index), data, self.customDataGetFunction)
                 end
                 self.itemCounts[itemId] = itemInfo.stack
             end
