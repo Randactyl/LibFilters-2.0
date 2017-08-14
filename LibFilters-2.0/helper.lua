@@ -176,6 +176,46 @@ helpers["enumerate"] = {
     },
 }
 
+--enable LF_SMITHING_DECONSTRUCT, LF_SMITHING_IMPROVEMENT
+helpers["GetIndividualInventorySlotsAndAddToScrollData"] = {
+    version = 1,
+    locations = {
+        [1] = ZO_SmithingExtractionInventory,
+        [2] = ZO_SmithingImprovementInventory,
+    },
+    helper = {
+        funcName = "GetIndividualInventorySlotsAndAddToScrollData",
+        func = function(self, predicate, filterFunction, filterType, data, useWornBag)
+            local oldPredicate = predicate
+            predicate = function(bagId, slotIndex)
+                local result = true
+
+                if type(self.additionalFilter) == "function" then
+                    result = self.additionalFilter(bagId, slotIndex)
+                end
+
+                return oldPredicate(bagId, slotIndex) and result
+            end
+
+            -- Begin original function
+
+            local bagsToUse = useWornBag and ZO_ALL_CRAFTING_INVENTORY_BAGS_AND_WORN or ZO_ALL_CRAFTING_INVENTORY_BAGS_WITHOUT_WORN
+            local filteredDataTable = SHARED_INVENTORY:GenerateFullSlotData(predicate, unpack(bagsToUse))
+
+            ZO_ClearTable(self.itemCounts)
+
+            for i, slotData in pairs(filteredDataTable) do
+                if not filterFunction or filterFunction(slotData.bagId, slotData.slotIndex, filterType) then
+                    self:AddItemData(slotData.bagId, slotData.slotIndex, slotData.stackCount, self:GetScrollDataType(slotData.bagId, slotData.slotIndex), data, self.customDataGetFunction, slotData)
+                end
+                self.itemCounts[i] = slotData.stackCount
+            end
+
+            return filteredDataTable
+        end,
+    },
+}
+
 --enable LF_SMITHING_RESEARCH
 helpers["SMITHING.researchPanel"] = {
     version = 1,
