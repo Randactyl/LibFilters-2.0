@@ -137,10 +137,11 @@ helpers["REPAIR_WINDOW"] = {
 --enable LF_ALCHEMY_CREATION, LF_ENCHANTING_CREATION, LF_ENCHANTING_EXTRACTION,
 --  LF_SMITHING_REFINE
 helpers["enumerate"] = {
-    version = 2,
+    version = 3,
     locations = {
         [1] = ZO_AlchemyInventory,
         [2] = ZO_EnchantingInventory,
+        [3] = ZO_SmithingExtractionInventory,
     },
     helper = {
         funcName = "EnumerateInventorySlotsAndAddToScrollData",
