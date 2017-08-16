@@ -219,16 +219,30 @@ helpers["GetIndividualInventorySlotsAndAddToScrollData"] = {
 
 --enable LF_SMITHING_RESEARCH
 helpers["SMITHING.researchPanel"] = {
-    version = 1,
+    version = 2,
     locations = {
         [1] = SMITHING.researchPanel,
     },
     helper = {
         funcName = "Refresh",
         func = function(self)
+            local function predicate(bagId, slotIndex)
+                local result = true
+
+                if type(self.additionalFilter) == "function" then
+                    result = self.additionalFilter(bagId, slotIndex)
+                end
+
+                return result
+            end
+
+            local virtualInventoryList = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK, predicate)
+            PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, predicate, virtualInventoryList)
+
+            -- Include function local to smithingresearch_shared.lua
+
             local function DetermineResearchLineFilterType(craftingType, researchLineIndex)
                 local traitType = GetSmithingResearchLineTraitInfo(craftingType, researchLineIndex, 1)
-
                 if ZO_CraftingUtils_IsTraitAppliedToWeapons(traitType) then
                     return ZO_SMITHING_RESEARCH_FILTER_TYPE_WEAPONS
                 elseif ZO_CraftingUtils_IsTraitAppliedToArmor(traitType) then
@@ -236,48 +250,29 @@ helpers["SMITHING.researchPanel"] = {
                 end
             end
 
-            self.dirty = false
-            self.researchLineList:Clear()
+            -- Begin original function
 
+            self.dirty = false
+
+            self.researchLineList:Clear()
             local craftingType = GetCraftingInteractionType()
+
             local numCurrentlyResearching = 0
+
+            -- Replaced by our version above
+            --local virtualInventoryList = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, nil, PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK))
 
             for researchLineIndex = 1, GetNumSmithingResearchLines(craftingType) do
                 local name, icon, numTraits, timeRequiredForNextResearchSecs = GetSmithingResearchLineInfo(craftingType, researchLineIndex)
-
                 if numTraits > 0 then
                     local researchingTraitIndex, areAllTraitsKnown = self:FindResearchingTraitIndex(craftingType, researchLineIndex, numTraits)
-
                     if researchingTraitIndex then
                         numCurrentlyResearching = numCurrentlyResearching + 1
                     end
 
                     if DetermineResearchLineFilterType(craftingType, researchLineIndex) == self.typeFilter then
-                        local function predicate(bagId, slotIndex)
-                            local result = true
-
-                            if type(self.additionalFilter) == "function" then
-                                result = self.additionalFilter(bagId, slotIndex)
-                            end
-
-                            return result
-                        end
-
-                        local virtualInventoryList = PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BANK, predicate, PLAYER_INVENTORY:GenerateListOfVirtualStackedItems(INVENTORY_BACKPACK, predicate))
-
                         local itemTraitCounts = self:GenerateResearchTraitCounts(virtualInventoryList, craftingType, researchLineIndex, numTraits)
-                        local data = {
-                            craftingType = craftingType,
-                            researchLineIndex = researchLineIndex,
-                            name = name,
-                            icon = icon,
-                            numTraits = numTraits,
-                            timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs,
-                            researchingTraitIndex = researchingTraitIndex,
-                            areAllTraitsKnown = areAllTraitsKnown,
-                            itemTraitCounts = itemTraitCounts
-                        }
-
+                        local data = { craftingType = craftingType, researchLineIndex = researchLineIndex, name = name, icon = icon, numTraits = numTraits, timeRequiredForNextResearchSecs = timeRequiredForNextResearchSecs, researchingTraitIndex = researchingTraitIndex, areAllTraitsKnown = areAllTraitsKnown, itemTraitCounts = itemTraitCounts }
                         self.researchLineList:AddEntry(data)
                     end
                 end
