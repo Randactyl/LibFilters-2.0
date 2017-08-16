@@ -179,7 +179,7 @@ helpers["enumerate"] = {
 
 --enable LF_SMITHING_DECONSTRUCT, LF_SMITHING_IMPROVEMENT
 helpers["GetIndividualInventorySlotsAndAddToScrollData"] = {
-    version = 1,
+    version = 2,
     locations = {
         [1] = ZO_SmithingExtractionInventory,
         [2] = ZO_SmithingImprovementInventory,
@@ -188,14 +188,14 @@ helpers["GetIndividualInventorySlotsAndAddToScrollData"] = {
         funcName = "GetIndividualInventorySlotsAndAddToScrollData",
         func = function(self, predicate, filterFunction, filterType, data, useWornBag)
             local oldPredicate = predicate
-            predicate = function(bagId, slotIndex)
+            predicate = function(itemData)
                 local result = true
 
                 if type(self.additionalFilter) == "function" then
-                    result = self.additionalFilter(bagId, slotIndex)
+                    result = self.additionalFilter(itemData.bagId, itemData.slotIndex)
                 end
 
-                return oldPredicate(bagId, slotIndex) and result
+                return oldPredicate(itemData) and result
             end
 
             -- Begin original function
