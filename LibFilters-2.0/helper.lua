@@ -322,6 +322,25 @@ helpers["QUICKSLOT_WINDOW"] = {
     },
 }
 
+--enable LF_RETRAIT
+helpers["ZO_RetraitStation_CanItemBeRetraited"] = {
+    version = 1,
+    locations = { _G, },
+    helper = {
+        funcName = "ZO_RetraitStation_CanItemBeRetraited",
+        func = function(itemData)
+            local base = ZO_RETRAIT_STATION_KEYBOARD
+            local result = CanItemBeRetraited(itemData.bagId, itemData.slotIndex)
+
+            if type(base.additionalFilter) == "function" then
+                result = result and base.additionalFilter(itemData.bagId, itemData.slotIndex)
+            end
+
+            return result
+        end,
+    }
+}
+
 --copy helpers into LibFilters
 local LibFilters = LibStub("LibFilters-2.0")
 
