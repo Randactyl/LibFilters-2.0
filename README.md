@@ -16,13 +16,16 @@ The goal of LibFilters is to provide an easy interface for applying custom
   enchanting extraction, fence selling, fence laundering, the craftbag, and the
   quickslot inventory.
 
-To use LibFilters in your addon, you need to copy the LibStub (if you don't already have it from elsewhere) and LibFilters-2.0 folders from this directory to your addon's directory. In your manifest you need to load these files:
+To use LibFilters in your addon, you need to copy the LibStub (if you don't
+  already have it from elsewhere) and LibFilters-2.0 folders from this directory
+  to your addon's directory. In your manifest you need to load these files:
 
     path\to\LibStub\LibStub.lua
     path\to\LibFilters-2.0\LibFilters-2.0.lua
     path\to\LibFilters-2.0\helper.lua
 
-In your addon, you need to invoke LibFilters with LibStub and then initialize LibFilters:
+In your addon, you need to invoke LibFilters with LibStub and then initialize
+  LibFilters:
 
     local LibFilters = LibStub("LibFilters-2.0")
     LibFilters:InitializeLibFilters()
@@ -52,6 +55,7 @@ This is the list of available filterType constants:
     LF_FENCE_LAUNDER         --inventory slot
     LF_CRAFTBAG              --inventory slot
     LF_QUICKSLOT             --quickslot slot
+    LF_RETRAIT               --bagId, slotIndex
 
 Listed next to the filterTypes is what is passed to a filterCallback registered
   to that filterType. For the slots, these are the keys available in the passed
