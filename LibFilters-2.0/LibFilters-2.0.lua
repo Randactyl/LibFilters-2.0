@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 3.4
+local MAJOR, MINOR = "LibFilters-2.0", 3.5
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
