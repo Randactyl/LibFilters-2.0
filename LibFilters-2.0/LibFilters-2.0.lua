@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibFilters-2.0", 3.6
+local MAJOR, MINOR = "LibFilters-2.0", 3.7
 local LibFilters, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not LibFilters then return end
 
@@ -253,6 +253,7 @@ local function HookAdditionalFilters()
     LibFilters:HookAdditionalFilter(LF_SMITHING_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
     LibFilters:HookAdditionalFilter(LF_SMITHING_IMPROVEMENT, SMITHING.improvementPanel.inventory)
     LibFilters:HookAdditionalFilter(LF_SMITHING_RESEARCH, SMITHING.researchPanel)
+    LibFilters:HookAdditionalFilter(LF_JEWELRY_REFINE, SMITHING.refinementPanel.inventory)
     --LibFilters:HookAdditionalFilter(LF_JEWELRY_CREATION, )
     LibFilters:HookAdditionalFilter(LF_JEWELRY_DECONSTRUCT, SMITHING.deconstructionPanel.inventory)
     LibFilters:HookAdditionalFilter(LF_JEWELRY_IMPROVEMENT, SMITHING.improvementPanel.inventory)
